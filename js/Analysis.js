@@ -60,12 +60,14 @@ function requestTable(province, subDepartment, status){
 	return
 }
 
-/**
+
+/** ==DEPRECATED==
 	Parses json and returns/updates global variables containing parsed data.
 	Parameters: jsonObject - a JSON object
 	Unknown return values (if any)
-**/
+
 function parseJSON(jsonObject){
 	return
 }
 
+**/
