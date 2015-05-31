@@ -9,8 +9,12 @@
     
     <!-- ECharts import -->
     <script src="http://echarts.baidu.com/build/dist/echarts-all.js"></script>
+	<script src="js/Analysis.js"></script>
     <script type="text/javascript">
         // Initialize after dom ready
+        
+        var n1 = "p1";
+        
         var myChart = echarts.init(document.getElementById('main')); 
         
         var option = {
@@ -26,7 +30,7 @@
     legend: {
         orient : 'vertical',
         x : 'left',
-        data:['Province 1','Province 2','Province 3','Province 4','Province 5']
+        data:['n1','Province 2','Province 3','Province 4','Province 5']
     },
     toolbox: {
         show : true,

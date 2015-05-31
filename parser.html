@@ -1,0 +1,219 @@
+<html>
+
+<header>DATA ANALYTICS</header>
+
+<body>
+<h2>JSON Table:</h2>
+
+
+<div style="height: 300px; overflow:auto; cellpadding: 10px">
+<table id="table"></table>
+</div>
+
+<script type="text/javascript">
+var json = {
+
+	"entry0" : {
+		"DeviceID" : "DeviceID",
+		"UserName" : "UserName",
+		"DomainName" : "DomainName",
+		"OfficeID" : "OfficeID",
+		"ClientVersion" : "ClientVersion",
+		"Tel" : "Tel",
+		"InfoID" : "InfoID",
+		"OneDayValue" : "OneDayValue",
+		"Active" : "Active",
+		"Registered" : "Registered",
+		"DateRegistered" : "DateRegistered",
+		"LastActive" : "LastActive"
+	},
+	
+	"entry1" : {
+		"DeviceID" : "1",
+		"UserName" : "username1",
+		"DomainName" : "1.0",
+		"OfficeID" : "11",
+		"ClientVersion" : ".1",
+		"Tel" : "112",
+		"InfoID" : "10",
+		"OneDayValue" : "1",
+		"Active" : "yes",
+		"Registered" : "yes",
+		"DateRegistered" : "5-1-12",
+		"LastActive" : "5-19-2015"
+	},
+
+	"entry2" : {
+		"DeviceID" : "2",
+		"UserName" : "username2",
+		"DomainName" : "2.0",
+		"OfficeID" : "12",
+		"ClientVersion" : ".2",
+		"Tel" : "113",
+		"InfoID" : "20",
+		"OneDayValue" : "2",
+		"Active" : "yes",
+		"Registered" : "yes",
+		"DateRegistered" : "2-15-10",
+		"LastActive" : "5-19-2015"
+	},
+
+	"entry3" : {
+		"DeviceID" : "3",
+		"UserName" : "username3",
+		"DomainName" : "3.0",
+		"OfficeID" : "13",
+		"ClientVersion" : ".3",
+		"Tel" : "114",
+		"InfoID" : "30",
+		"OneDayValue" : "3",
+		"Active" : "no",
+		"Registered" : "yes",
+		"DateRegistered" : "5-1-12",
+		"LastActive" : "N/A"
+	},
+
+	"entry4" : {
+		"DeviceID" : "4",
+		"UserName" : "username4",
+		"DomainName" : "4.0",
+		"OfficeID" : "14",
+		"ClientVersion" : ".4",
+		"Tel" : "115",
+		"InfoID" : "40",
+		"OneDayValue" : "4",
+		"Active" : "no",
+		"Registered" : "no",
+		"DateRegistered" : "N/A",
+		"LastActive" : "N/A"
+	},
+
+	"entry5" : {
+		"DeviceID" : "5",
+		"UserName" : "username5",
+		"DomainName" : "5.0",
+		"OfficeID" : "15",
+		"ClientVersion" : ".5",
+		"Tel" : "115",
+		"InfoID" : "50",
+		"OneDayValue" : "5",
+		"Active" : "yes",
+		"Registered" : "yes",
+		"DateRegistered" : "5-19-15",
+		"LastActive" : "5-19-2015"
+	},
+
+	"entry6" : {
+		"DeviceID" : "1",
+		"UserName" : "username1",
+		"DomainName" : "1.0",
+		"OfficeID" : "11",
+		"ClientVersion" : ".1",
+		"Tel" : "112",
+		"InfoID" : "10",
+		"OneDayValue" : "1",
+		"Active" : "yes",
+		"Registered" : "yes",
+		"DateRegistered" : "5-1-12",
+		"LastActive" : "5-19-2015"
+	},
+
+	"entry7" : {
+		"DeviceID" : "2",
+		"UserName" : "username2",
+		"DomainName" : "2.0",
+		"OfficeID" : "12",
+		"ClientVersion" : ".2",
+		"Tel" : "113",
+		"InfoID" : "20",
+		"OneDayValue" : "2",
+		"Active" : "yes",
+		"Registered" : "yes",
+		"DateRegistered" : "2-15-10",
+		"LastActive" : "5-19-2015"
+	},
+
+	"entry8" : {
+		"DeviceID" : "3",
+		"UserName" : "username3",
+		"DomainName" : "3.0",
+		"OfficeID" : "13",
+		"ClientVersion" : ".3",
+		"Tel" : "114",
+		"InfoID" : "30",
+		"OneDayValue" : "3",
+		"Active" : "no",
+		"Registered" : "yes",
+		"DateRegistered" : "5-1-12",
+		"LastActive" : "N/A"
+	},
+
+	"entry9" : {
+		"DeviceID" : "4",
+		"UserName" : "username4",
+		"DomainName" : "4.0",
+		"OfficeID" : "14",
+		"ClientVersion" : ".4",
+		"Tel" : "115",
+		"InfoID" : "40",
+		"OneDayValue" : "4",
+		"Active" : "no",
+		"Registered" : "no",
+		"DateRegistered" : "N/A",
+		"LastActive" : "N/A"
+	},
+
+	"entry10" : {
+		"DeviceID" : "5",
+		"UserName" : "username5",
+		"DomainName" : "5.0",
+		"OfficeID" : "15",
+		"ClientVersion" : ".5",
+		"Tel" : "115",
+		"InfoID" : "50",
+		"OneDayValue" : "5",
+		"Active" : "yes",
+		"Registered" : "yes",
+		"DateRegistered" : "5-19-15",
+		"LastActive" : "5-19-2015"
+	}
+
+};
+
+Object.size = function(obj) {
+	var size = 0, key;
+	for(key in obj) {
+		if (obj.hasOwnProperty(key)) size++;
+	}
+	return size;
+};
+
+var keys = Object.keys(json);
+var oldTable = document.getElementById("table"),
+	newTable = oldTable.cloneNode(true);
+
+for(i = 0; i < keys.length; i++) {
+
+	var tr = document.createElement('tr');
+
+	for(j = 0; j < Object.size(json[keys[i]]); j++) {
+
+		var td = document.createElement('td');
+		element = Object.keys(json[keys[i]]);
+		node = json[keys[i]][element[j]];
+		td.appendChild(document.createTextNode(node));
+		tr.appendChild(td);
+		td.style.width = '200px';
+	}
+
+	newTable.appendChild(tr);
+}
+
+oldTable.parentNode.replaceChild(newTable, oldTable);
+
+
+</script>
+
+</body>
+
+</html>
