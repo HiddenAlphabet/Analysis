@@ -23,13 +23,49 @@ var JSON_raw = ""; //not typed
 var calc_store = [];
 
 
+/*Returns the the size of a JSON file based on number of keys in that file*/
+Object.size = function(obj) {
+	var size = 0, key;
+	for(key in obj) {
+		if(obj.hasOwnProperty(key)) size++;
+	}
+	return size;
+}
+
 
 /**
 	Generates dynamically sized table for displaying hardware data
 	Unknown parameters (if any)
 	Unknown return values (if any)
 **/
-function tablegen(){
+function tablegen(Department){
+
+	var oldTable = document.getElementById("table"),
+		newTable = oldTable.cloneNode(true);
+
+	var json = requestTable(Department);
+
+	var keys = Object.keys(json);
+
+	for(i = 0; i < keys.length; i++) {
+
+		var tr = document.createElement('tr');
+
+		for(j = 0; j < Object.size(json[keys[i]]); j++) {
+
+			var td = document.createElement('td');
+			element = Object.keys(json[keys[i]]);
+			node = json[keys[i]][element[j]];
+			td.appendChild(document.createTextNode(node));
+			tr.appendChild(td);
+			td.style.width = '200px';
+		}
+
+		newTable.appendChild(tr);
+	}
+
+	oldTable.parentNode.replaceChild(newTable, oldTable);
+
 	return
 }
 
@@ -56,7 +92,7 @@ function requestCalc(){
 	Parameters: province - 1st level hq, subDepartment - 2nd level hq, status - inactive or inactive hardware
 	Return value: JSON of relevant info
 **/
-function requestTable(province, subDepartment, status){
+function requestTable(subDepartment, status){
 	return
 }
 
