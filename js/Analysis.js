@@ -38,10 +38,13 @@ Object.size = function(obj) {
 	Unknown parameters (if any)
 	Unknown return values (if any)
 **/
-function tablegen(Department){
+function tablegen(){
 
 	var oldTable = document.getElementById("table"),
 		newTable = oldTable.cloneNode(true);
+
+	var index = document.getElementById("department");
+	Department = index[index.selectedIndex].value;
 
 	var json = requestTable(Department);
 
