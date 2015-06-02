@@ -40,8 +40,10 @@ Object.size = function(obj) {
 **/
 function tablegen(){
 
-	var oldTable = document.getElementById("table"),
-		newTable = oldTable.cloneNode(true);
+	var oldTable = document.getElementById("table");
+	oldTable.innerHTML = "";
+
+	var	newTable = oldTable.cloneNode(true);
 
 	var index = document.getElementById("department");
 	Department = index[index.selectedIndex].value;
@@ -97,8 +99,23 @@ function requestCalc(){
 **/
 function requestTable(Department){
 
+	var dep_json = {};
+
+	key = Object.keys(JSON);
+
 	if(Department == "All")
 		return JSON
+
+	else {
+		for(i = 0; i < key.length; i++) {
+			if(JSON[key[i]].Department == Department || JSON[key[i]].Department == "Department") {
+				dep_json[key[i]] = JSON[key[i]];
+			}
+		}
+
+		return dep_json
+	}
+
 
 	return
 }
