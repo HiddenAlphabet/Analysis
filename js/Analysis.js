@@ -6,22 +6,12 @@
 	
 	progress:
 	tablegen (David+spencer) - ? done
+	
+	requestCalc (jeremy) - done
 
-	graphgen (jeremy) - not done
+	requestTable (David+spencer) - done
 
-	requestCalc (jeremy) - not done
-
-	requestTable (David+spencer) - not done
-
-	parseJSON (David+spencer) - not done
 **/
-
-/**
-	T. Globals
-**/
-var JSON_raw = ""; //not typed
-var calc_store = [];
-
 
 /*Returns the the size of a JSON file based on number of keys in that file*/
 Object.size = function(obj) {
@@ -144,12 +134,6 @@ function requestCalc(graphType){
 	}
 	
 }
-
-//count total registered/unregistered by department
-	//returns registered unregistered by department ex: [ {department:"HR", registered:5, unregistered:3}, {department:"Accounting", registered:3, unregistered:1} ]
-
-//count total active/inactive: inactive = Registered equipment - equipment active in the last month
-	//returns active/inactive by department ex: [ {department:"HR", active:5, inactive:2}, {department:"Accounting", active:5, inactive:0} ]
 
 /**
 	Returns data to be displayed in the tables. May be called to receive fresh data.
