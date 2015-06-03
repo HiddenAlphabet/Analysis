@@ -75,22 +75,81 @@ function tablegen(){
 }
 
 /**
-	Generates new echarts graphs for given data
-	Parameters: companyArray - array of length 2 arrays or tuple object array
-	Unknown return values (if any)
+	Returns array of calculated data (registered/unregistered, active/inactive) for the number of hardware elements within departments.
+	Parameters: graphType == 0 is registered/unregistered, graphType == 1 is active/inactive
+	Return value: array of object value-pairs, one for each department
 **/
-function graphgen(companyArray){
-	return
+function requestCalc(graphType){
+	
+	var dep_json = {};
+
+	key = Object.keys(JSON);
+	
+	result = [];
+	var departments = {};
+	
+	if (graphType == 0){
+
+		for(k=0; k<key.length; k++){
+			if(!(JSON[key[k]].Department in departments)){
+				departments[JSON[key[k]].Department] = JSON[key[k]].Department;
+				result.push({department: JSON[key[k]].Department, registered:0, unregistered:0});
+			}
+		}
+		
+		for(i=0; i<key.length; i++){
+			for(j=0; j<result.length; j++){
+				if(JSON[key[i]].Department == result[j].department){
+					if(JSON[key[i]].Registered == "1"){
+						result[j].registered+=1;
+					} else {
+						result[j].unregistered+=1;
+					}
+				}
+			}
+		}
+
+		return result;
+	} else {
+	
+		for(k=0; k<key.length; k++){
+			if(!(JSON[key[k]].Department in departments)){
+				departments[JSON[key[k]].Department] = JSON[key[k]].Department;
+				result.push({department: JSON[key[k]].Department, active:0, inactive:0});
+			}
+		}
+		
+		for(i=0; i<key.length; i++){
+			for(j=0; j<result.length; j++){
+				if(JSON[key[i]].Department == result[j].department){
+				
+					var dateString = JSON[key[i]].LastTime;
+					dateString = dateString.split(' ').join('T');
+					
+					var lastTime = new Date(dateString);
+					lastTime = lastTime.getTime();
+					var today = new Date();
+					today = today.getTime()
+					
+					if(JSON[key[i]].Registered == "1" && ((today - lastTime) < 2678000000)){ //31 days
+						result[j].active+=1;
+					} else {
+						result[j].inactive+=1;
+					}
+				}
+			}
+		}
+		
+		return result;
+	}
+	
 }
 
-/**
-	Returns array of calculated data for the number of hardware elements within provinces, subDepartments, and percentiles.
-	Return value: array of length 2 arrays or tuple object array
+//count total registered/unregistered by department
+	//returns registered unregistered by department ex: [ {department:"HR", registered:5, unregistered:3}, {department:"Accounting", registered:3, unregistered:1} ]
 
-**/
-function requestCalc(){
-	return
-}
+//count total active/inactive: inactive = Registered equipment - equipment active in the last month
+	//returns active/inactive by department ex: [ {department:"HR", active:5, inactive:2}, {department:"Accounting", active:5, inactive:0} ]
 
 /**
 	Returns data to be displayed in the tables. May be called to receive fresh data.
@@ -122,22 +181,22 @@ function requestTable(Department){
 
 var JSON = {
 
-	"entry0" : {
-		"DeviceID" : "DeviceID",
-		"UserName" : "UserName",
-		"DomainName" : "DomainName",
-		"OfficeID" : "OfficeID",
-		"ClientVersion" : "ClientVersion",
-		"Tel" : "Tel",
-		"InfoID" : "InfoID",
-		"OneDayValue" : "OneDayValue",
-		"Registered" : "Registered",
-		"DateRegistered" : "DateRegistered",
-		"LastTime" : "LastTime",
-		"LastOnlineTime" : "LastOnlineTime",
-		"Department" : "Department",
-		"OnlineMinutes" : "OnlineMinutes"
-	},
+	// "entry0" : {
+		// "DeviceID" : "DeviceID",
+		// "UserName" : "UserName",
+		// "DomainName" : "DomainName",
+		// "OfficeID" : "OfficeID",
+		// "ClientVersion" : "ClientVersion",
+		// "Tel" : "Tel",
+		// "InfoID" : "InfoID",
+		// "OneDayValue" : "OneDayValue",
+		// "Registered" : "Registered",
+		// "DateRegistered" : "DateRegistered",
+		// "LastTime" : "LastTime", // YYYY-MM-DD HH:MM:SS
+		// "LastOnlineTime" : "LastOnlineTime",
+		// "Department" : "Department",
+		// "OnlineMinutes" : "OnlineMinutes"
+	// },
 
 	"entry1" : {
 		"DeviceID" : "1290978",
@@ -150,8 +209,8 @@ var JSON = {
 		"OneDayValue" : "OneDayValue",
 		"Registered" : "1",
 		"DateRegistered" : "5-19-00",
-		"LastTime" : "5-19-15 6:00AM",
-		"LastOnlineTime" : "5-19-15 8:00PM",
+		"LastTime" : "2015-05-19 06:00:00", 
+		"LastOnlineTime" : "2015-05-19 20:00:00",
 		"Department" : "HR",
 		"OnlineMinutes" : "120"
 	},
@@ -167,8 +226,8 @@ var JSON = {
 		"OneDayValue" : "OneDayValue",
 		"Registered" : "1",
 		"DateRegistered" : "3-18-14",
-		"LastTime" : "5-28-15 12:00PM",
-		"LastOnlineTime" : "5-28-15 6:00PM",
+		"LastTime" : "2015-05-28 12:00:00", 
+		"LastOnlineTime" : "2015-05-28 18:00:00",
 		"Department" : "HR",
 		"OnlineMinutes" : "165"
 	},
@@ -201,8 +260,8 @@ var JSON = {
 		"OneDayValue" : "OneDayValue",
 		"Registered" : "1",
 		"DateRegistered" : "1-19-05",
-		"LastTime" : "3-14-10 8:00AM",
-		"LastOnlineTime" : "3-14-10 5:00PM",
+		"LastTime" : "2010-03-14 08:00:00",
+		"LastOnlineTime" : "2010-03-14 17:00:00",
 		"Department" : "ACCOUNTING",
 		"OnlineMinutes" : "200"
 	},
@@ -218,11 +277,12 @@ var JSON = {
 		"OneDayValue" : "OneDayValue",
 		"Registered" : "1",
 		"DateRegistered" : "8-19-12",
-		"LastTime" : "5-14-13 8:00AM",
-		"LastOnlineTime" : "5-14-13 5:00PM",
+		"LastTime" : "2013-05-13 08:00:00",
+		"LastOnlineTime" : "2013-05-13 17:00:00",
 		"Department" : "CLAIMS",
 		"OnlineMinutes" : "320"
-	}
+	} 
+
 	
 };
 
